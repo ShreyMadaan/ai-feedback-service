@@ -18,9 +18,20 @@ public class FeedbackService {
         this.llmClient = llmClient;
     }
     public Feedback generateFeedback(String code, String output, String language) {
-        String prompt = "Analyze the following " + language + " code:\n" + code +
-                "\nExecution Output:\n" + output +
-                "\nProvide feedback on correctness, efficiency, and style.";
+        String prompt = """
+Analyze the following %s code:
+
+%s
+
+Execution Output:
+%s
+
+Provide feedback in the following structured format:
+1. Correctness
+2. Efficiency
+3. Style
+4. Suggestions
+""".formatted(language, code, output);
 
         String aiResponse = llmClient.getFeedback(prompt);
 
