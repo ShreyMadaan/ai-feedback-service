@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Entity
 @Getter
 @Setter
@@ -11,11 +13,9 @@ public class Feedback {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String submissionId;
-    private String correctness;
-    private String optimization;
-    private String style;
-    @Column(length = 5000)
-    private String comments;
+    private String code;
+    private String output;
+    private String language;
+    private String feedbackText;
+    private Date createdAt;
 }
