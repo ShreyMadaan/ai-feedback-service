@@ -5,7 +5,7 @@ import com.interviewprep.aifeedbackservice.model.Feedback;
 import com.interviewprep.aifeedbackservice.repository.FeedbackRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -29,7 +29,7 @@ public class FeedbackService {
         feedback.setOutput(output);
         feedback.setLanguage(language);
         feedback.setFeedbackText(aiResponse);
-        feedback.setCreatedAt(new Date());
+        feedback.setCreatedAt(LocalDateTime.now());
 
         return feedbackRepository.save(feedback);
     }

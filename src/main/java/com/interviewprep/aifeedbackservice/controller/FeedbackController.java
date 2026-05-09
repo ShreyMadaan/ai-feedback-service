@@ -2,6 +2,8 @@ package com.interviewprep.aifeedbackservice.controller;
 
 import com.interviewprep.aifeedbackservice.model.Feedback;
 import com.interviewprep.aifeedbackservice.service.FeedbackService;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,17 +38,10 @@ public class FeedbackController {
 }
 
 // DTO for request body
+@Getter
+@Setter
 class FeedbackRequest {
     private String code;
     private String output;
     private String language;
-
-    public String getCode() { return code; }
-    public void setCode(String code) { this.code = code; }
-
-    public String getOutput() { return output; }
-    public void setOutput(String output) { this.output = output; }
-
-    public String getLanguage() { return language; }
-    public void setLanguage(String language) { this.language = language; }
 }
