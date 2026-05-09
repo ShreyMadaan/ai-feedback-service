@@ -13,9 +13,14 @@ public class Feedback {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String code;
     private String output;
     private String language;
+
+    @Column(length = 2000) // allow longer feedback text
     private String feedbackText;
-    private Date createdAt;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt = new Date();
 }
