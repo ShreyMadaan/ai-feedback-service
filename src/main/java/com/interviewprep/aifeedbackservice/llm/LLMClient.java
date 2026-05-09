@@ -3,21 +3,23 @@ package com.interviewprep.aifeedbackservice.llm;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
 
 @Component
 public class LLMClient {
     private final WebClient webClient;
+    private final ObjectMapper mapper = new ObjectMapper();
 
     public LLMClient() {
         this.webClient = WebClient.builder()
-                .baseUrl("https://api.openai.com/v1/chat/completions") // Example: OpenAI endpoint
+                .baseUrl("https://api.openai.com/v1/chat/completions")
                 .defaultHeader("Authorization", "Bearer " + System.getenv("OPENAI_API_KEY"))
                 .build();
     }
 
     public String getFeedback(String prompt) {
-        // Example request body for OpenAI GPT-4
-        String response = webClient.post()
+        String responseJson = webClient.post()
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue("""
                     {
@@ -33,7 +35,11 @@ public class LLMClient {
                 .bodyToMono(String.class)
                 .block();
 
-        // For now, return raw JSON. Later, parse into feedback text.
-        return response;
+        try {
+            JsonNode root = mapper.readTree(responseJson);
+            return root.path("choices").get(0).path("message").path("content").asText();
+        } catch (Exception e) {
+            throw new RuntimeException("Error parsing LLM response", e);
+        }
     }
 }
